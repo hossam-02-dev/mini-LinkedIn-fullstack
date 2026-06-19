@@ -1,0 +1,15 @@
+
+.git/
+.gitignore
+.gitattributes
+.classpath
+.project
+.settings/
+.mvn/
+mvnw
+mvnw.cmd
+uploads/
+*.log
+README.md
+HELP.md
+src/main/java/com/example/miniLinkedin/mapping/*MapperImpl.java
