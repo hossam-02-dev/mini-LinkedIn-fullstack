@@ -23,15 +23,9 @@ pipeline {
             }
         }
 
-      stage('Build Frontend') {
+    stage('Build Frontend') {
     steps {
         dir('frontend') {
-            sh 'rm -rf node_modules'
-            sh 'npm config set fetch-timeout 300000'
-            sh 'npm config set fetch-retry-mintimeout 20000'
-            sh 'npm config set fetch-retry-maxtimeout 120000'
-            sh 'npm config set registry https://registry.npmmirror.com'
-            sh 'npm install --legacy-peer-deps'
             sh 'npm run build'
         }
     }
