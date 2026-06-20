@@ -23,15 +23,16 @@ pipeline {
             }
         }
 
-        stage('Build Frontend') {
-            steps {
-                dir('frontend') {
-                    sh 'npm cache clean --force'
-                    sh 'npm install --legacy-peer-deps'
-                    sh 'npm run build'
-                }
-            }
+       stage('Build Frontend') {
+    steps {
+        dir('frontend') {
+            sh 'rm -rf node_modules'
+            sh 'npm cache clean --force'
+            sh 'npm install --legacy-peer-deps'
+            sh 'npm run build'
         }
+    }
+}
 
         stage('Docker Build') {
             steps {
