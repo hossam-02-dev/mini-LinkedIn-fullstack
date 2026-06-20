@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         BACKEND_IMAGE  = 'minilinkedin-backend'
-        FRONTEND_IMAGE = 'minilinkedin-frontend'
+        // FRONTEND_IMAGE n'est plus nécessaire
     }
 
     stages {
@@ -23,19 +23,20 @@ pipeline {
             }
         }
 
-    stage('Build Frontend') {
-    steps {
-        dir('frontend') {
-            sh 'npm install --legacy-peer-deps'
-            sh 'npm run build'
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm install --legacy-peer-deps'
+                    sh 'npm run build'
+                }
+            }
         }
-    }
-}
 
         stage('Docker Build') {
             steps {
+                // On ne construit que l'image backend
                 sh "docker build -t ${BACKEND_IMAGE}:${BUILD_NUMBER} ./backend"
-                sh "docker build -t ${FRONTEND_IMAGE}:${BUILD_NUMBER} ./frontend"
+                // La ligne de build frontend est SUPPRIMÉE
             }
         }
 
