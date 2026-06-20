@@ -3,32 +3,30 @@ services:
     image: postgres:16-alpine
     container_name: linkedin-db
     restart: always
-    env_file: .env
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: minilinkedin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d minilinkedin"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   backend:
-    build: .
+    build: ./backend
     container_name: linkedin-backend
     restart: always
-    env_file: .env
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/minilinkedin
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
     depends_on:
       db:
         condition: service_healthy
@@ -36,7 +34,7 @@ services:
       - linkedin_uploads:/app/uploads
 
   frontend:
-    build: C:/Users/Houssam/Plaeteforme-professionel/plateforme-reseautage
+    build: ./frontend
     container_name: linkedin-frontend
     restart: always
     ports:
